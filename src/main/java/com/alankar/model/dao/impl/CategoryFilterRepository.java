@@ -31,7 +31,7 @@ public class CategoryFilterRepository {
 	public List<Category> getFilteredEntity(CategoryFilterDto categoryFilterDto, Pageable pageable) {
 
 		/* If no Filter is provided */
-		if (ObjectUtils.isEmpty(categoryFilterDto) || categoryFilterDto.isIgnorePagination()) {
+		if (ObjectUtils.isEmpty(categoryFilterDto) || categoryFilterDto.getIsIgnorePagination()) {
 			return categoryRepostiory.findAll(pageable).toList();
 		}
 

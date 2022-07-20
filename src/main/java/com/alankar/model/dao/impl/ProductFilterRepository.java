@@ -31,8 +31,8 @@ public class ProductFilterRepository {
 	public List<Product> getFilteredEntity(ProductFilterDto productFilterDto, Pageable pageable) {
 
 		/* If no Filter is provided */
-		if (ObjectUtils.isEmpty(productFilterDto) || productFilterDto.isIgnorePagination()) {
-			return productRepository.findAll(pageable).toList();
+		if (ObjectUtils.isEmpty(productFilterDto) || productFilterDto.getIsIgnorePagination()) {
+			return productRepository.findAll();
 		}
 
 		final Query query = new Query().with(pageable);

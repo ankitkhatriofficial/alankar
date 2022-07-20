@@ -17,7 +17,7 @@ import lombok.Setter;
 @JsonInclude(value = Include.NON_NULL)
 public class BaseFilterDto {
 
-	private boolean isIgnorePagination;
+	private Boolean isIgnorePagination = Boolean.FALSE;
 
 	private String searchKeyword;
 	private Integer pageNumber = Utils.DEFAULT_PAGE_NUMBER;

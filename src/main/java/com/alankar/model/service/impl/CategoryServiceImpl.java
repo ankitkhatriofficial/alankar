@@ -11,7 +11,9 @@ import com.alankar.common.Utils;
 import com.alankar.common.constant.ResponseCode;
 import com.alankar.common.converter.CategoryConverter;
 import com.alankar.handler.model.BaseException;
+import com.alankar.model.dao.impl.CategoryFilterRepository;
 import com.alankar.model.dto.CategoryDto;
+import com.alankar.model.dto.filter.CategoryFilterDto;
 import com.alankar.model.entity.Category;
 import com.alankar.model.repository.CategoryRepostiory;
 import com.alankar.model.service.CategoryService;
@@ -28,6 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepostiory categoryRepo;
 	@Autowired
 	private CategoryConverter categoryConverter;
+	@Autowired
+	private CategoryFilterRepository categoryFilterRepository;
 
 	@Override
 	public CategoryDto saveToDB(CategoryDto dto) {
@@ -75,6 +79,13 @@ public class CategoryServiceImpl implements CategoryService {
 		} else {
 			throw new BaseException(ResponseCode.ENTITY_NOT_FOUND);
 		}
+	}
+
+	@Override
+	public List<CategoryDto> getByFilters(CategoryFilterDto categoryFilterDto) {
+		return categoryConverter.toDtoList(
+				categoryFilterRepository.getFilteredEntity(categoryFilterDto, Utils.getPageable(categoryFilterDto)));
+
 	}
 
 }

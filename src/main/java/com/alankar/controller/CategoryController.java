@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alankar.common.constant.RestMappingConst;
 import com.alankar.common.response.BaseResponseMessage;
 import com.alankar.model.dto.CategoryDto;
+import com.alankar.model.dto.filter.CategoryFilterDto;
 import com.alankar.model.service.CategoryService;
 
 /**
@@ -25,7 +26,7 @@ import com.alankar.model.service.CategoryService;
 @RestController
 @RequestMapping(value = RestMappingConst.Category.BASE)
 public class CategoryController {
-	
+
 	@Autowired
 	private CategoryService categoryService;
 
@@ -44,6 +45,11 @@ public class CategoryController {
 		return BaseResponseMessage.RETURN_DATA(categoryService.getById(id));
 	}
 
+	@PostMapping(path = RestMappingConst.Category.GET_WITH_FILTERS)
+	public ResponseEntity<?> fetchProductByCategory(@RequestBody CategoryFilterDto categoryFilterDto) {
+		return BaseResponseMessage.RETURN_DATA(categoryService.getByFilters(categoryFilterDto));
+	}
+
 	@PatchMapping(path = RestMappingConst.Category.UPDATE)
 	public ResponseEntity<?> updateCategory(@RequestBody CategoryDto categoryDto) {
 		return BaseResponseMessage.RETURN_DATA(categoryService.update(categoryDto));
@@ -59,5 +65,5 @@ public class CategoryController {
 		categoryService.remove(id);
 		return BaseResponseMessage.SUCCESS();
 	}
-	
+
 }

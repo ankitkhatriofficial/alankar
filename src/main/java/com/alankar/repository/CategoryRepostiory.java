@@ -1,4 +1,4 @@
-package com.alankar.model.repository;
+package com.alankar.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

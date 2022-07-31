@@ -16,7 +16,7 @@ import com.alankar.common.constant.RestMappingConst;
 import com.alankar.common.response.BaseResponseMessage;
 import com.alankar.model.dto.CategoryDto;
 import com.alankar.model.dto.filter.CategoryFilterDto;
-import com.alankar.model.service.CategoryService;
+import com.alankar.service.CategoryService;
 
 /**
  * @author ankitkhatri

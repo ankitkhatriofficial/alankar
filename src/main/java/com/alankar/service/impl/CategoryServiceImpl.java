@@ -1,4 +1,4 @@
-package com.alankar.model.service.impl;
+package com.alankar.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,12 +11,12 @@ import com.alankar.common.Utils;
 import com.alankar.common.constant.ResponseCode;
 import com.alankar.common.converter.CategoryConverter;
 import com.alankar.handler.model.BaseException;
-import com.alankar.model.dao.impl.CategoryFilterRepository;
+import com.alankar.dao.impl.CategoryFilterRepository;
 import com.alankar.model.dto.CategoryDto;
 import com.alankar.model.dto.filter.CategoryFilterDto;
 import com.alankar.model.entity.Category;
-import com.alankar.model.repository.CategoryRepostiory;
-import com.alankar.model.service.CategoryService;
+import com.alankar.repository.CategoryRepostiory;
+import com.alankar.service.CategoryService;
 
 /**
  * @author ankitkhatri

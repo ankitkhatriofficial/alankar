@@ -1,4 +1,4 @@
-package com.alankar.model.dao.impl;
+package com.alankar.dao.impl;
 
 /**
  * @author ankitkhatri
@@ -17,7 +17,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.alankar.model.dto.filter.CategoryFilterDto;
 import com.alankar.model.entity.Category;
-import com.alankar.model.repository.CategoryRepostiory;
+import com.alankar.repository.CategoryRepostiory;
 
 @Component
 public class CategoryFilterRepository {
@@ -31,11 +31,17 @@ public class CategoryFilterRepository {
 	public List<Category> getFilteredEntity(CategoryFilterDto categoryFilterDto, Pageable pageable) {
 
 		/* If no Filter is provided */
-		if (ObjectUtils.isEmpty(categoryFilterDto) || categoryFilterDto.getIsIgnorePagination()) {
-			return categoryRepostiory.findAll(pageable).toList();
+		if (ObjectUtils.isEmpty(categoryFilterDto)) {
+			return categoryRepostiory.findAll();
 		}
 
-		final Query query = new Query().with(pageable);
+		Query query;
+		if(Boolean.TRUE.equals(categoryFilterDto.getIsIgnorePagination())){
+			query = new Query().with(Pageable.unpaged());
+		} else{
+			query = new Query().with(pageable);
+		}
+
 		final List<Criteria> criteria = new ArrayList<>();
 
 		if (!ObjectUtils.isEmpty(categoryFilterDto.getSearchKeyword())) {

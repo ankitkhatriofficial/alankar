@@ -1,4 +1,4 @@
-package com.alankar.model.service;
+package com.alankar.service;
 
 import java.util.List;
 

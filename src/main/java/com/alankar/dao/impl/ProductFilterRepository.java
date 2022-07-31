@@ -1,7 +1,8 @@
-package com.alankar.model.dao.impl;
+package com.alankar.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.alankar.model.dto.filter.ProductFilterDto;
 import com.alankar.model.entity.Product;
-import com.alankar.model.repository.ProductRepository;
+import com.alankar.repository.ProductRepository;
 
 /**
  * @author ankitkhatri
@@ -31,15 +32,20 @@ public class ProductFilterRepository {
 	public List<Product> getFilteredEntity(ProductFilterDto productFilterDto, Pageable pageable) {
 
 		/* If no Filter is provided */
-		if (ObjectUtils.isEmpty(productFilterDto) || productFilterDto.getIsIgnorePagination()) {
+		if (ObjectUtils.isEmpty(productFilterDto)) {
 			return productRepository.findAll();
 		}
 
-		final Query query = new Query().with(pageable);
+		Query query;
+		if(Boolean.TRUE.equals(productFilterDto.getIsIgnorePagination())){
+			query = new Query().with(Pageable.unpaged());
+		}else{
+			query = new Query().with(pageable);
+		}
 		final List<Criteria> criteria = new ArrayList<>();
 
-		if (!ObjectUtils.isEmpty(productFilterDto.getCategory())) {
-			criteria.add(Criteria.where("category").is(productFilterDto.getCategory()));
+		if (!ObjectUtils.isEmpty(productFilterDto.getCategories())) {
+			criteria.add(Criteria.where("category").in(productFilterDto.getCategories()));
 		}
 		
 		if (!ObjectUtils.isEmpty(productFilterDto.getPersonFor())) {

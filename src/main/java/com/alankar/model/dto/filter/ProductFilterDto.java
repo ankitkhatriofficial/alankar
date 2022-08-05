@@ -11,8 +11,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
  * @author ankitkhatri
  */
@@ -23,7 +21,7 @@ import java.util.List;
 @JsonInclude(value = Include.NON_NULL)
 public class ProductFilterDto extends BaseFilterDto {
 
-	private List<CategoryConst> categories;
+	private CategoryConst category;
 	private PersonConst personFor;
 	private MetalTypeConst metalType;
 	private MetalQualityTypeConst metalQualityType;

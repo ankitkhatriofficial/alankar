@@ -2,7 +2,6 @@ package com.alankar.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -44,8 +43,8 @@ public class ProductFilterRepository {
 		}
 		final List<Criteria> criteria = new ArrayList<>();
 
-		if (!ObjectUtils.isEmpty(productFilterDto.getCategories())) {
-			criteria.add(Criteria.where("category").in(productFilterDto.getCategories()));
+		if (!ObjectUtils.isEmpty(productFilterDto.getCategory())) {
+			criteria.add(Criteria.where("category").is(productFilterDto.getCategory()));
 		}
 		
 		if (!ObjectUtils.isEmpty(productFilterDto.getPersonFor())) {

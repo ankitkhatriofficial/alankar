@@ -49,9 +49,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public CategoryDto saveToDB(CategoryDto dto) {
-		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
-			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
-		}
 		if (dto.getId() == null || dto.getId().trim().isEmpty()) {
 			dto.setId(Utils.generateNewID(PREFIX_ID, categoryRepo));
 		}
@@ -60,9 +57,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public CategoryDto update(CategoryDto dto) {
-		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
-			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
-		}
 		CategoryDto savedObject = getById(dto.getId());
 		BeanUtils.copyProperties(dto, savedObject);
 		return categoryConverter.entityToPojo(categoryRepo.save(categoryConverter.pojoToEntity(savedObject)));

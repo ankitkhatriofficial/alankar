@@ -39,9 +39,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductDto saveToDB(ProductDto dto) {
-		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
-			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
-		}
 		if (dto.getId() == null || dto.getId().trim().isEmpty()) {
 			dto.setId(Utils.generateNewID(PREFIX_ID, productRepo));
 		}
@@ -50,9 +47,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductDto update(ProductDto dto) {
-		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
-			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
-		}
 		ProductDto savedObject = getById(dto.getId());
 		BeanUtils.copyProperties(dto, savedObject);
 		return productConverter.entityToPojo(productRepo.save(productConverter.pojoToEntity(savedObject)));

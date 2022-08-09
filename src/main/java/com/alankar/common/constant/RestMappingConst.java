@@ -51,5 +51,7 @@ public interface RestMappingConst {
 		String DELETE = CRUD.DELETE;
 		String GET = CRUD.GET;
 		String GET_WITH_FILTERS = CRUD.GET_WITH_FILTERS;
+
+		String CLEAR_CACHE = "/clear-cache";
 	}
 }

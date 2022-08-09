@@ -1,6 +1,5 @@
 package com.alankar.model.dto;
 
-import com.alankar.common.constant.CategoryConst;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -17,7 +16,7 @@ import lombok.Setter;
 @JsonInclude(value = Include.NON_NULL)
 public class CategoryDto extends BaseDto {
 
-	private CategoryConst category;
+	private String category;
 	private String imageUrl;
 
 }

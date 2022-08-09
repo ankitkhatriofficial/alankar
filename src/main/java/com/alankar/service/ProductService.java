@@ -3,6 +3,7 @@ package com.alankar.service;
 import java.util.List;
 
 import com.alankar.model.dto.ProductDto;
+import com.alankar.model.dto.ProductFilterResponse;
 import com.alankar.model.dto.filter.ProductFilterDto;
 
 /**
@@ -21,7 +22,7 @@ public interface ProductService {
 
 	public List<ProductDto> getAll();
 
-	public List<ProductDto> getByFilters(ProductFilterDto productFilterDto);
+	public ProductFilterResponse getByFilters(ProductFilterDto productFilterDto);
 
 	public void remove(String id);
 

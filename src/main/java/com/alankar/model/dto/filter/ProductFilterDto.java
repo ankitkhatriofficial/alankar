@@ -1,6 +1,5 @@
 package com.alankar.model.dto.filter;
 
-import com.alankar.common.constant.CategoryConst;
 import com.alankar.common.constant.MetalQualityTypeConst;
 import com.alankar.common.constant.MetalTypeConst;
 import com.alankar.common.constant.PersonConst;
@@ -21,7 +20,7 @@ import lombok.Setter;
 @JsonInclude(value = Include.NON_NULL)
 public class ProductFilterDto extends BaseFilterDto {
 
-	private CategoryConst category;
+	private String category;
 	private PersonConst personFor;
 	private MetalTypeConst metalType;
 	private MetalQualityTypeConst metalQualityType;

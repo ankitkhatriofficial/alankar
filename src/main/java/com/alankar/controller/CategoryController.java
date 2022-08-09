@@ -66,4 +66,8 @@ public class CategoryController {
 		return BaseResponseMessage.SUCCESS();
 	}
 
+	@PostMapping(path = RestMappingConst.Category.CLEAR_CACHE)
+	public ResponseEntity<?> reloadCategoryFromDB(){
+		return BaseResponseMessage.SUCCESS();
+	}
 }

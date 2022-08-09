@@ -3,8 +3,11 @@ package com.alankar.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.alankar.model.dto.ProductFilterResponse;
+import com.alankar.model.entity.Category;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alankar.common.Utils;
@@ -36,6 +39,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductDto saveToDB(ProductDto dto) {
+		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
+			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
+		}
 		if (dto.getId() == null || dto.getId().trim().isEmpty()) {
 			dto.setId(Utils.generateNewID(PREFIX_ID, productRepo));
 		}
@@ -44,6 +50,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductDto update(ProductDto dto) {
+		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
+			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
+		}
 		ProductDto savedObject = getById(dto.getId());
 		BeanUtils.copyProperties(dto, savedObject);
 		return productConverter.entityToPojo(productRepo.save(productConverter.pojoToEntity(savedObject)));
@@ -84,9 +93,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductDto> getByFilters(ProductFilterDto productFilterDto) {
-		return productConverter.toDtoList(
-				productFilterRepository.getFilteredEntity(productFilterDto, Utils.getPageable(productFilterDto)));
+	public ProductFilterResponse getByFilters(ProductFilterDto productFilterDto) {
+		Pageable pageable = Utils.getPageable(productFilterDto);
+		List<ProductDto> list = productConverter.toDtoList(
+				productFilterRepository.getFilteredEntity(productFilterDto, pageable));
+		ProductFilterResponse response = ProductFilterResponse.builder()
+				.totalCount(productRepo.count())
+				.filteredCount(Long.valueOf(list.size()))
+				.pageNumber(pageable.getPageNumber())
+				.pageSize(pageable.getPageSize())
+				.data(list)
+				.build();
+		return response;
 	}
 
 }

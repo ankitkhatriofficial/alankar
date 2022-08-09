@@ -2,7 +2,6 @@ package com.alankar.model.dto;
 
 import java.util.List;
 
-import com.alankar.common.constant.CategoryConst;
 import com.alankar.common.constant.MetalQualityTypeConst;
 import com.alankar.common.constant.MetalTypeConst;
 import com.alankar.common.constant.PersonConst;
@@ -23,7 +22,7 @@ import lombok.Setter;
 @JsonInclude(value = Include.NON_NULL)
 public class ProductDto extends BaseDto {
 
-	private CategoryConst category;
+	private String category;
 	private Double weight;
 	private String description;
 	private String designTypeName; // [baranasi, lucknowi, gujarati, bombaiya]

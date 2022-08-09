@@ -1,5 +1,6 @@
 package com.alankar.common.converter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class CategoryConverter {
 	/** Helper function to convert the given list entity to list dto */
 	public List<CategoryDto> toDtoList(List<Category> entities) {
 		if (entities == null)
-			return null;
+			return new ArrayList<>();
 		return entities.stream().map((entity) -> entityToPojo(entity)).collect(Collectors.toList());
 	}
 

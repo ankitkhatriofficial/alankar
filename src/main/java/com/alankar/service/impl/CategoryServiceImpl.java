@@ -2,9 +2,12 @@ package com.alankar.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.alankar.model.dto.CategoryFilterResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alankar.common.Utils;
@@ -17,6 +20,8 @@ import com.alankar.model.dto.filter.CategoryFilterDto;
 import com.alankar.model.entity.Category;
 import com.alankar.repository.CategoryRepostiory;
 import com.alankar.service.CategoryService;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author ankitkhatri
@@ -33,8 +38,20 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private CategoryFilterRepository categoryFilterRepository;
 
+	@PostConstruct
+	public void cacheCategory(){
+		Category.categoryCache.clear();
+		List<Category> dataInDB = categoryRepo.findAll();
+		if(dataInDB != null){
+			Category.categoryCache = dataInDB.stream().map(data -> data.getCategory()).collect(Collectors.toSet());
+		}
+	}
+
 	@Override
 	public CategoryDto saveToDB(CategoryDto dto) {
+		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
+			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
+		}
 		if (dto.getId() == null || dto.getId().trim().isEmpty()) {
 			dto.setId(Utils.generateNewID(PREFIX_ID, categoryRepo));
 		}
@@ -43,6 +60,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public CategoryDto update(CategoryDto dto) {
+		if(dto.getCategory() == null || !Category.categoryCache.contains(dto.getCategory())){
+			throw new BaseException(ResponseCode.INVALID_CATEGORY_PASSED);
+		}
 		CategoryDto savedObject = getById(dto.getId());
 		BeanUtils.copyProperties(dto, savedObject);
 		return categoryConverter.entityToPojo(categoryRepo.save(categoryConverter.pojoToEntity(savedObject)));
@@ -82,10 +102,23 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<CategoryDto> getByFilters(CategoryFilterDto categoryFilterDto) {
-		return categoryConverter.toDtoList(
-				categoryFilterRepository.getFilteredEntity(categoryFilterDto, Utils.getPageable(categoryFilterDto)));
+	public CategoryFilterResponse getByFilters(CategoryFilterDto categoryFilterDto) {
+		Pageable pageable = Utils.getPageable(categoryFilterDto);
+		List<CategoryDto> list = categoryConverter.toDtoList(
+				categoryFilterRepository.getFilteredEntity(categoryFilterDto, pageable));
+		CategoryFilterResponse response = CategoryFilterResponse.builder()
+				.totalCount(categoryRepo.count())
+				.filteredCount(Long.valueOf(list.size()))
+				.pageNumber(pageable.getPageNumber())
+				.pageSize(pageable.getPageSize())
+				.data(list)
+				.build();
+		return response;
+	}
 
+	@Override
+	public void reloadCategoryFromDB() {
+		cacheCategory();
 	}
 
 }

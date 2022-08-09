@@ -17,7 +17,8 @@ public enum ResponseCode {
 
 	/* OK BUT LOGICAL ERROR */
 	ENTITY_NOT_FOUND("Entity not found..!", HttpStatus.OK),
-	INVALID_ID("Invalid id..!", HttpStatus.OK);
+	INVALID_ID("Invalid id..!", HttpStatus.OK),
+	INVALID_CATEGORY_PASSED("Invalid category passed", HttpStatus.OK);
 
 	/* ENUM PART */
 	private String message;

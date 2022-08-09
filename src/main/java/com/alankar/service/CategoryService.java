@@ -3,6 +3,7 @@ package com.alankar.service;
 import java.util.List;
 
 import com.alankar.model.dto.CategoryDto;
+import com.alankar.model.dto.CategoryFilterResponse;
 import com.alankar.model.dto.filter.CategoryFilterDto;
 
 /**
@@ -22,6 +23,7 @@ public interface CategoryService {
 
 	public void remove(String id);
 
-	public List<CategoryDto> getByFilters(CategoryFilterDto categoryFilterDto);
+	public CategoryFilterResponse getByFilters(CategoryFilterDto categoryFilterDto);
 
+	public void reloadCategoryFromDB();
 }

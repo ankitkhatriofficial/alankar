@@ -1,12 +1,14 @@
 package com.alankar.model.entity;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.alankar.common.constant.CategoryConst;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author ankitkhatri
@@ -23,9 +25,11 @@ public class Category extends BaseEntity {
 	}
 
 	@Field(name = Columns.CATEGORY)
-	private CategoryConst category;
+	private String category;
 
 	@Field(name = Columns.IMAGE_URL)
 	private String imageUrl;
 
+	@Transient
+	public static Set<String> categoryCache = new HashSet<>();
 }

@@ -3,7 +3,6 @@ package com.alankar.model.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.alankar.common.constant.CategoryConst;
 import com.alankar.common.constant.MetalQualityTypeConst;
 import com.alankar.common.constant.MetalTypeConst;
 import com.alankar.common.constant.PersonConst;
@@ -43,7 +42,7 @@ public class Product extends BaseEntity {
 	}
 
 	@Field(name = Columns.CATEGORY)
-	private CategoryConst category;
+	private String category;
 	
 	@Field(name = Columns.WEIGHT)
 	private Double weight;

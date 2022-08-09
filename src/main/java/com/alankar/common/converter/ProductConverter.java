@@ -1,5 +1,6 @@
 package com.alankar.common.converter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +47,7 @@ public class ProductConverter {
 	/** Helper function to convert the given page entity to list dto */
 	public List<ProductDto> toDtoList(Page<Product> entities) {
 		if (entities == null)
-			return null;
+			return new ArrayList<>();
 		return entities.stream().map((entity) -> entityToPojo(entity)).collect(Collectors.toList());
 	}
 }
